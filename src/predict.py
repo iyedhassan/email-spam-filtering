@@ -1,35 +1,63 @@
 import pickle
 from pathlib import Path
 
-from preprocessing import clean_text
+from src.preprocessing import clean_text
 
 
-# Chemin du projet
+# ============================================================
+# 1. Chemins du projet
+# ============================================================
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Chemin du modèle
 MODEL_PATH = BASE_DIR / "models" / "naive_bayes_model.pkl"
 
 
-# Charger le modèle
+# ============================================================
+# 2. Charger le modèle
+# ============================================================
+
 with open(MODEL_PATH, "rb") as file:
     model = pickle.load(file)
 
 
-# Demander un SMS
-message = input("Enter your SMS: ")
+# ============================================================
+# 3. Afficher le titre
+# ============================================================
+
+print("=" * 40)
+print("       SMS SPAM CLASSIFIER")
+print("=" * 40)
 
 
-# Nettoyer le message
+# ============================================================
+# 4. Demander le SMS
+# ============================================================
+
+message = input("\nEnter your SMS: ")
+
+
+# ============================================================
+# 5. Nettoyer le message
+# ============================================================
+
 cleaned_message = clean_text(message)
 
 
-# Faire la prédiction
+# ============================================================
+# 6. Faire la prédiction
+# ============================================================
+
 prediction = model.predict_one(cleaned_message)
 
 
-# Afficher le résultat
+# ============================================================
+# 7. Afficher le résultat
+# ============================================================
+
+print("\nPrediction:")
+
 if prediction == 1:
-    print("Prediction: SPAM")
+    print("SPAM")
 else:
-    print("Prediction: HAM")
+    print("HAM")

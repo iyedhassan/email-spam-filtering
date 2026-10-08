@@ -4,8 +4,16 @@ from pathlib import Path
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from preprocessing import clean_text
-from model import NaiveBayesSpamClassifier
+from src.preprocessing import clean_text
+from src.model import NaiveBayesSpamClassifier
+
+from src.evaluation import (
+    accuracy_from_scratch,
+    precision_from_scratch,
+    recall_from_scratch,
+    f1_score_from_scratch,
+    confusion_matrix_from_scratch
+)
 
 
 # ============================================================
@@ -107,16 +115,32 @@ print("Prédictions terminées !")
 # 9. Accuracy from scratch
 # ============================================================
 
-def accuracy_from_scratch(y_true, y_pred):
+# ============================================================
+# 9. Evaluation
+# ============================================================
 
-    correct = 0
+accuracy = accuracy_from_scratch(y_test, y_pred)
+precision = precision_from_scratch(y_test, y_pred)
+recall = recall_from_scratch(y_test, y_pred)
+f1 = f1_score_from_scratch(y_test, y_pred)
 
-    for true, pred in zip(y_true, y_pred):
+confusion_matrix = confusion_matrix_from_scratch(
+    y_test,
+    y_pred
+)
 
-        if true == pred:
-            correct += 1
 
-    return correct / len(y_true)
+print()
+print("===== MODEL EVALUATION =====")
+
+print("Accuracy  :", accuracy)
+print("Precision :", precision)
+print("Recall    :", recall)
+print("F1-score  :", f1)
+
+print()
+print("Confusion Matrix:")
+print(confusion_matrix)
 
 
 accuracy = accuracy_from_scratch(y_test, y_pred)
